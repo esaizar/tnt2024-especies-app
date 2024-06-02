@@ -1,0 +1,66 @@
+{
+  "expo": {
+    "name": "EspeciesApp",
+    "slug": "EspeciesApp",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "myapp",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "assets/fonts/NunitoSans_10pt-Black.ttf",
+            "assets/fonts/NunitoSans_10pt-Bold.ttf",
+            "assets/fonts/NunitoSans_10pt-ExtraBold.ttf",
+            "assets/fonts/NunitoSans_10pt-ExtraLight.ttf",
+            "assets/fonts/NunitoSans_10pt-Light.ttf",
+            "assets/fonts/NunitoSans_10pt-Medium.ttf",
+            "assets/fonts/NunitoSans_10pt-Regular.ttf",
+            "assets/fonts/NunitoSans_10pt-SemiBold.ttf"
+          ]
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Quiero acceder a tus fotos. Te voy a robar todos los datos."
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Permite a $(PRODUCT_NAME) acceder a su cámara",
+          "microphonePermission": "-",
+          "recordAudioAndroid": false
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
