@@ -34,7 +34,6 @@ export function EspecieHeader({ especie }: EspecieHeaderProps) {
                     locations={[0, 0.30, 0.55]}
                     style={styles.imagenYGradiente}
                 />
-                {/* , fontWeight: "bold" */}
                 <TextNunitoSans numberOfLines={1} style={styles.nombreEspecie}>{especie.nombre_cientifico}</TextNunitoSans>
             </ImageBackground>
 
@@ -80,7 +79,8 @@ const styles = StyleSheet.create({
     nombreEspecie: {
         marginLeft: 20,
         bottom: 65,
-        fontSize: 24
+        fontSize: 24,
+        fontWeight: 600
     },
     lineaDivision: {
         height: 25,

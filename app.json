@@ -33,14 +33,14 @@
         "expo-font",
         {
           "fonts": [
-            "assets/fonts/NunitoSans_10pt-Black.ttf",
-            "assets/fonts/NunitoSans_10pt-Bold.ttf",
-            "assets/fonts/NunitoSans_10pt-ExtraBold.ttf",
-            "assets/fonts/NunitoSans_10pt-ExtraLight.ttf",
-            "assets/fonts/NunitoSans_10pt-Light.ttf",
-            "assets/fonts/NunitoSans_10pt-Medium.ttf",
-            "assets/fonts/NunitoSans_10pt-Regular.ttf",
-            "assets/fonts/NunitoSans_10pt-SemiBold.ttf"
+            "./assets/fonts/NunitoSans_10pt-Black.ttf",
+            "./assets/fonts/NunitoSans_10pt-Bold.ttf",
+            "./assets/fonts/NunitoSans_10pt-ExtraBold.ttf",
+            "./assets/fonts/NunitoSans_10pt-ExtraLight.ttf",
+            "./assets/fonts/NunitoSans_10pt-Light.ttf",
+            "./assets/fonts/NunitoSans_10pt-Medium.ttf",
+            "./assets/fonts/NunitoSans_10pt-Regular.ttf",
+            "./assets/fonts/NunitoSans_10pt-SemiBold.ttf"
           ]
         }
       ],
