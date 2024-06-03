@@ -20,7 +20,8 @@ export  const EspecieList: FC<EspecieListProps> = ({ especies }) => {
             }}
             style={styles.container}
             renderItem={ especie => (
-                <Link href={`/especie/${especie.item.sp_id}`} style={{marginVertical: 5}}>
+                // <Link href={`/especie/${especie.item.sp_id}`} style={{marginVertical: 5}}> link href params
+                <Link href={{pathname: "/especie/[especieId]", params: { especieId: especie.item.sp_id }}}  style={{marginVertical: 5}}>
                     <CardEspecie especie={ especie } />
                 </Link>
             )}
