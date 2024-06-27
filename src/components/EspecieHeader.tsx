@@ -1,5 +1,4 @@
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
-//import { Image } from "expo-image";
 import { Link } from "expo-router";
 import { ImageBackground, StyleSheet, View } from "react-native";
 import { TextNunitoSans } from "./TextNunitoSans";
@@ -15,7 +14,7 @@ export function EspecieHeader({ especie }: EspecieHeaderProps) {
     const uriImagen = especie?.imagen ? { uri: especie?.imagen } : require("@/assets/images/placeholder.png");
 
     return (
-        <View>
+        <View style={{marginTop: -25}}>
             <View style={styles.botonesSuperiores} >
                 <Link href={`/`} style={styles.botonVolver}> 
                     <MaterialIcons name="arrow-back-ios-new" size={24} color="black" />
@@ -39,14 +38,6 @@ export function EspecieHeader({ especie }: EspecieHeaderProps) {
 
             <View style={styles.lineaDivision} />
 
-            {/*
-                <Image
-                    source={{ uri: uriImagen }}
-                    style={{ height: 300, backgroundColor: "transparent" }}
-                    placeholder={require("@/assets/images/placeholder.png")}
-
-                />
-                */}
         </View>
     );
 }
@@ -55,7 +46,7 @@ const styles = StyleSheet.create({
     botonesSuperiores: {
         flexDirection: "row",
         justifyContent: 'space-between',
-        top: 25,
+        top: 40,
         zIndex: 1
     },
     botonVolver: {

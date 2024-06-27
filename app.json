@@ -57,6 +57,12 @@
           "microphonePermission": "-",
           "recordAudioAndroid": false
         }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Permite a $(PRODUCT_NAME) a usar su ubicación."
+        }
       ]
     ],
     "experiments": {

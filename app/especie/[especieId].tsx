@@ -5,6 +5,7 @@ import { themeStyles } from "@/src/theme/theme";
 import { useLocalSearchParams } from "expo-router";
 import { StyleSheet, View, useWindowDimensions } from "react-native";
 import { EspecieHeader } from "@/src/components/EspecieHeader";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function EspecieShowScreen() {
   const searchParams = useLocalSearchParams();
@@ -41,10 +42,15 @@ export default function EspecieShowScreen() {
   }
 
   return (
-    <View style={themeStyles.screen}>
+
+// TODO chequear q funcione bien el margen superior
+
+    <SafeAreaView style={themeStyles.screen}>
+    {/* <View style={themeStyles.screen}> */}
       <EspecieHeader especie={especie} />
       <EspecieDetail especie={especie} />
-    </View>
+    {/* </View> */}
+    </SafeAreaView>
   );
 }
 

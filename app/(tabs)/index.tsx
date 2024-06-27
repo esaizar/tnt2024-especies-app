@@ -8,10 +8,10 @@ import { useState } from "react";
 import {
   Button,
   Pressable,
-  SafeAreaView,
   StyleSheet,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function HomeScreen() {
   const [filter, setFilter] = useState<TReino | null>(null);
@@ -44,37 +44,35 @@ export default function HomeScreen() {
   // Render
   //
   return (
-    <SafeAreaView style={themeStyles.screen}>
-      <View style={styles.container}>
-        <View style={styles.titleContainer}>
-          <TextNunitoSans style={styles.title}>Home</TextNunitoSans>
-          <View style={styles.filtersContainer}>
-            <Pressable onPress={handleRemoveFilter}>
-              <HomeFilter filter={filter} name={null} />
-            </Pressable>
-            <Pressable onPress={handleFilter(TReinoEnum.ANIMALIA)}>
-              <HomeFilter filter={filter} name={TReinoEnum.ANIMALIA} />
-            </Pressable>
-            <Pressable onPress={handleFilter(TReinoEnum.FUNGI)}>
-              <HomeFilter filter={filter} name={TReinoEnum.FUNGI} />
-            </Pressable>
-            <Pressable onPress={handleFilter(TReinoEnum.PLANTAE)}>
-              <HomeFilter filter={filter} name={TReinoEnum.PLANTAE} />
-            </Pressable>
-          </View>
+    <SafeAreaView style={[themeStyles.screen, styles.container]}>
+      <View style={styles.titleContainer}>
+        <TextNunitoSans style={styles.title}>Home</TextNunitoSans>
+        <View style={styles.filtersContainer}>
+          <Pressable onPress={handleRemoveFilter}>
+            <HomeFilter filter={filter} name={null} />
+          </Pressable>
+          <Pressable onPress={handleFilter(TReinoEnum.ANIMALIA)}>
+            <HomeFilter filter={filter} name={TReinoEnum.ANIMALIA} />
+          </Pressable>
+          <Pressable onPress={handleFilter(TReinoEnum.FUNGI)}>
+            <HomeFilter filter={filter} name={TReinoEnum.FUNGI} />
+          </Pressable>
+          <Pressable onPress={handleFilter(TReinoEnum.PLANTAE)}>
+            <HomeFilter filter={filter} name={TReinoEnum.PLANTAE} />
+          </Pressable>
         </View>
-
-        {isFetching && <TextNunitoSans>Cargando...</TextNunitoSans>}
-        {!isFetching && isError && (
-          <View>
-            <TextNunitoSans style={styles.textError}>
-              Error al cargar las especies
-            </TextNunitoSans>
-            <Button title="Reintentar" onPress={handleReintentar} />
-          </View>
-        )}
-        <EspecieList especies={especies} />
       </View>
+
+      {isFetching && <TextNunitoSans>Cargando...</TextNunitoSans>}
+      {!isFetching && isError && (
+        <View>
+          <TextNunitoSans style={styles.textError}>
+            Error al cargar las especies
+          </TextNunitoSans>
+          <Button title="Reintentar" onPress={handleReintentar} />
+        </View>
+      )}
+      <EspecieList especies={especies} />
     </SafeAreaView>
   );
 }

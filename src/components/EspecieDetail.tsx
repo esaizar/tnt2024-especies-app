@@ -30,7 +30,7 @@ export const EspecieDetail: FC<EspecieDetailProps> = ({ especie }) => {
                 </View>
             ))}
             
-            <Link href={`/(tabs)/report`} asChild>
+            <Link href={{pathname: "/(tabs)/report",params: { reportSpId: especie.sp_id }}} asChild>
                 <Pressable style={{justifyContent: "center", alignItems: "center", marginTop: 20}}>
                     <TextNunitoSans style={{backgroundColor: themeColors.primary, borderRadius: 30, padding: 10}}>Reportar Avistaje</TextNunitoSans>
                 </Pressable>
