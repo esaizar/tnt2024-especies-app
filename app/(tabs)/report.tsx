@@ -20,11 +20,13 @@ import { CustomTextInput } from "@/src/components/CustomTextInput";
 import { Map } from "@/src/components/Map";
 import { TakePictureBtn } from "@/src/components/TakePictureBtn";
 import { sendReporte } from "@/src/services/especies.service";
+import { useAuth } from "@/src/context/auth.context";
+import { AuthForm } from "@/src/components/AuthForm";
 
-// TODO imagen seleccionada no se muestra, verificar el boton de ubicacion
 
 export default function ReportScreen() {
   const params = useLocalSearchParams<{ reportSpId: string }>();
+  const { user } = useAuth();
 
   const [prevSpId, setPrevSpId] = useState<string | null>(null);
   const [spId, setSpId] = useState<string | null>(params?.reportSpId ?? null);
@@ -108,6 +110,9 @@ export default function ReportScreen() {
   
   return (
     <SafeAreaView style={themeStyles.screen}>
+      {!user ? (
+        <AuthForm />
+      ) : (
       <ScrollView
         contentContainerStyle={styles.container}
       >
@@ -204,6 +209,7 @@ export default function ReportScreen() {
           <CustomButton label="Reportar avistaje" />
         </Pressable>
       </ScrollView>
+      )}
     </SafeAreaView>
   );
 }

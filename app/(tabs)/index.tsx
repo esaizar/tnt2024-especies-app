@@ -4,17 +4,25 @@ import { TextNunitoSans } from "@/src/components/TextNunitoSans";
 import { useFilteredEspecies } from "@/src/services/especies.hooks";
 import { TReino, TReinoEnum } from "@/src/services/especies.service";
 import { themeColors, themeStyles } from "@/src/theme/theme";
+import { useAuth } from "@/src/context/auth.context";
 import { useState } from "react";
 import {
   Button,
   Pressable,
   StyleSheet,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function HomeScreen() {
   const [filter, setFilter] = useState<TReino | null>(null);
+  const { user, signOut } = useAuth();
+
+  const displayName = user
+    ? (user.user_metadata?.full_name as string) || user.email || "Usuario"
+    : "Anónimo";
 
   const {
     data: especies, // renombro data a especies
@@ -46,7 +54,14 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={[themeStyles.screen, styles.container]}>
       <View style={styles.titleContainer}>
-        <TextNunitoSans style={styles.title}>Home</TextNunitoSans>
+        <View style={styles.greetingRow}>
+          <TextNunitoSans style={styles.title}>Hola {displayName}</TextNunitoSans>
+          {user && (
+            <TouchableOpacity onPress={signOut} style={styles.logoutBtn}>
+              <Ionicons name="log-out-outline" size={22} color={themeColors.primary} />
+            </TouchableOpacity>
+          )}
+        </View>
         <View style={styles.filtersContainer}>
           <Pressable onPress={handleRemoveFilter}>
             <HomeFilter filter={filter} name={null} />
@@ -92,6 +107,14 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     color: themeColors.textBase,
+  },
+  greetingRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  logoutBtn: {
+    padding: 4,
   },
   titleContainer: { gap: 35 },
   textError: {

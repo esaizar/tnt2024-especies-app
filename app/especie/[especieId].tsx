@@ -43,13 +43,9 @@ export default function EspecieShowScreen() {
 
   return (
 
-// TODO chequear q funcione bien el margen superior
-
     <SafeAreaView style={themeStyles.screen}>
-    {/* <View style={themeStyles.screen}> */}
       <EspecieHeader especie={especie} />
       <EspecieDetail especie={especie} />
-    {/* </View> */}
     </SafeAreaView>
   );
 }
