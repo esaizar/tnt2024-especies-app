@@ -23,7 +23,8 @@
         "android.permission.ACCESS_COARSE_LOCATION",
         "android.permission.ACCESS_FINE_LOCATION"
       ],
-      "package": "com.esaizar.EspeciesApp"
+      "package": "com.esaizar.EspeciesApp",
+      "usesCleartextTraffic": true
     },
     "web": {
       "bundler": "metro",
@@ -69,6 +70,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "8296635f-fa2e-44d5-aaab-a35ea9e169c6"
+      }
     }
   }
 }
