@@ -1,83 +1,77 @@
-# EspeciesApp — Documentación técnica
+---
+title: ""
+author: ""
+date: ""
+geometry: margin=1in
+header-includes:
+  - \usepackage{graphicx}
+  - \usepackage{float}
+  - \usepackage{xcolor}
+  - \usepackage{fancyvrb}
+  - \usepackage{framed}
+  - \usepackage{fontspec}
+  - \setmonofont[Scale=0.85]{DejaVu Sans Mono}
+  - \definecolor{shadecolor}{RGB}{248,248,248}
+  - \renewenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+  - \usepackage{listings}
+  - \lstset{breaklines=true,breakatwhitespace=false,basicstyle=\ttfamily\small}
+colorlinks: true
+---
+
+\begin{center}
+\includegraphics[width=0.6\textwidth]{logo-untdf.png}
+
+\vspace{8em}
+
+{\Huge \textbf{Talle de Nuevas Tecnologías}}
+
+\vspace{3em}
+
+{\Huge \textbf{Año cursada: 2024}}
+
+\vspace{6em}
+
+{\huge \textbf{UNTDF}}
+
+\vspace{6em}
+
+{\huge \textbf{Saizar Ezequiel}}
+
+\end{center}
+
+\newpage
+
+
+## Índice
+
+0. [Resumen](#resumen)
+1. [Arquitectura general](#1-arquitectura-general)
+2. [Funcionalidad: Catálogo de especies](#2-funcionalidad-catálogo-de-especies)
+3. [Funcionalidad: Likes en tiempo real](#3-funcionalidad-likes-en-tiempo-real)
+4. [Funcionalidad: Registro / Login para reportar](#4-funcionalidad-registro--login-para-reportar)
+5. [Funcionalidad: Formulario de reporte de avistaje](#5-funcionalidad-formulario-de-reporte-de-avistaje)
+6. [Puesta en marcha](#6-puesta-en-marcha)
+7. [Configuración de Supabase](#7-configuración-de-supabase)
+8. [Variables de entorno](#8-variables-de-entorno)
+9. [Estructura de carpetas](#9-estructura-de-carpetas)
+
+\newpage
+
+## Resumen
 
 App móvil desarrollada en la cursada 2024 de **Taller de Nuevas Tecnologías (UNTDF)**.  
 Permite explorar un catálogo de especies (animales, plantas y hongos), ver su detalle, dar likes en tiempo real y reportar avistajes desde el campo.
 
----
+**Repositorios:**
 
-## Índice
-
-1. [Puesta en marcha](#1-puesta-en-marcha)
-2. [Arquitectura general](#2-arquitectura-general)
-3. [Funcionalidad: Catálogo de especies](#3-funcionalidad-catálogo-de-especies)
-4. [Funcionalidad: Likes en tiempo real](#4-funcionalidad-likes-en-tiempo-real)
-5. [Funcionalidad: Registro / Login para reportar](#5-funcionalidad-registro--login-para-reportar)
-6. [Funcionalidad: Formulario de reporte de avistaje](#6-funcionalidad-formulario-de-reporte-de-avistaje)
-7. [Variables de entorno](#7-variables-de-entorno)
-8. [Estructura de carpetas](#8-estructura-de-carpetas)
-
----
-
-## 1. Puesta en marcha
-
-### Requisitos previos
-
-| Herramienta | Versión recomendada |
+| | Enlace |
 |---|---|
-| Node.js | 18 o superior |
-| npm | 9 o superior |
-| Expo CLI | instalado globalmente (`npm install -g expo-cli`) |
-| Android Studio **o** Xcode | para usar emulador/simulador |
-| Expo Go (opcional) | app en el celular para probar sin compilar |
+| App (este proyecto) | <https://github.com/esaizar/tnt2024-especies-app> |
+| API REST | <https://github.com/vieraleonel/tnt2024-especies-api> |
 
-### Pasos
 
-```bash
-# 1. Clonar el repositorio
-git clone <url-del-repo>
-cd tnt2024-especies-app-main-01-06
 
-# 2. Instalar dependencias
-npm install
-
-# 3. Configurar variables de entorno
-cp .env.example .env.local
-# Editar .env.local con los valores reales (ver sección 7)
-
-# 4. Iniciar la app
-npm run android   # emulador Android
-npm run ios       # simulador iOS
-npm run web       # navegador web
-```
-
-> **Nota importante:** `EXPO_PUBLIC_API_URL` debe apuntar a la IP de la máquina que corre el backend en la red local. Si el backend corre en `localhost:3000`, desde un emulador Android hay que usar `10.0.2.2:3000` en lugar de `localhost`.
-
-### Base de datos Supabase
-
-El proyecto usa un proyecto Supabase compartido de cátedra. Para usar uno propio:
-
-1. Crear una cuenta en [supabase.com](https://supabase.com) y crear un nuevo proyecto.
-2. Crear las tablas necesarias (ver abajo).
-3. Actualizar `SUPABASE_URL` y `SUPABASE_KEY` en `.env.local` y también en `src/utils/supabase.ts`.
-
-**Tabla `especieslikes`** (para la funcionalidad de likes):
-
-```sql
-create table especieslikes (
-  id bigint primary key generated always as identity,
-  sp_id int not null unique,
-  like int not null default 0
-);
-
--- Habilitar Realtime para esta tabla
-alter publication supabase_realtime add table especieslikes;
-```
-
-**Autenticación:** Activar el proveedor **Email** en Supabase Dashboard → Authentication → Providers.
-
----
-
-## 2. Arquitectura general
+## 1. Arquitectura general
 
 ```
 app/                    ← Rutas (Expo Router, basado en archivos)
@@ -102,9 +96,9 @@ La navegación usa **Expo Router** (file-based routing), lo que significa que ca
 
 El estado del servidor (listado de especies) se maneja con **TanStack Query**, que provee caché, revalidación automática y estados de carga/error.
 
----
+\newpage
 
-## 3. Funcionalidad: Catálogo de especies
+## 2. Funcionalidad: Catálogo de especies
 
 ### ¿Cómo funciona?
 
@@ -125,9 +119,9 @@ La API devuelve objetos `TEspecie` completos, pero la pantalla Home solo necesit
 **TanStack Query (`src/services/especies.hooks.ts`):**  
 La configuración `staleTime: 5000` e `initialDataUpdatedAt` evitan llamadas innecesarias a la API: los datos se consideran frescos durante 5 segundos. El hook `useEspecies` acepta un `customSelect` (selector), lo que permite que `useFilteredEspecies`, `useEspeciesHome` y `useEspecie` reutilicen la misma query con transformaciones distintas.
 
----
+\newpage
 
-## 4. Funcionalidad: Likes en tiempo real
+## 3. Funcionalidad: Likes en tiempo real
 
 ### ¿Qué hace?
 
@@ -176,9 +170,9 @@ Al presionar el botón:
 
 El componente no necesita volver a consultar la base de datos para actualizar la UI: la actualización llega automáticamente por el canal de Realtime.
 
----
+\newpage
 
-## 5. Funcionalidad: Registro / Login para reportar
+## 4. Funcionalidad: Registro / Login para reportar
 
 ### ¿Qué hace?
 
@@ -229,9 +223,9 @@ const displayName = user
 ```
 El botón de logout llama a `signOut()` del contexto, que internamente ejecuta `supabase.auth.signOut()`. Al cerrar sesión, `onAuthStateChange` dispara con `session = null`, actualizando toda la UI automáticamente.
 
----
+\newpage
 
-## 6. Funcionalidad: Formulario de reporte de avistaje
+## 5. Funcionalidad: Formulario de reporte de avistaje
 
 ### ¿Qué hace?
 
@@ -255,9 +249,113 @@ Permite registrar un avistaje de una especie con: especie seleccionada, ubicaci�
 3. Los datos se envían como `FormData` via `axios.post` al endpoint del backend.
 4. Tras el envío exitoso, todos los campos se resetean.
 
----
+\newpage
 
-## 7. Variables de entorno
+## 6. Puesta en marcha
+
+### Requisitos previos
+
+| Herramienta | Versión recomendada |
+|---|---|
+| Node.js | 18 o 20, no superior a 20 |
+| npm | 9 o superior |
+| Expo CLI | instalado globalmente (`npm install -g expo-cli`) |
+| Android Studio **o** Xcode | para usar emulador/simulador |
+| Expo Go (opcional) | app en el celular para probar sin compilar |
+
+### Pasos
+
+```bash
+# 1. Clonar el repositorio
+git clone https://github.com/esaizar/tnt2024-especies-app
+cd tnt2024-especies-app
+
+# 2. Instalar dependencias
+npm install
+
+# 3. Configurar variables de entorno
+cp .env.example .env.local
+# Editar .env.local con los valores reales (ver sección 7)
+
+# 4. Iniciar la app
+npm run android   # emulador Android
+npm run ios       # simulador iOS
+npm run web       # navegador web
+```
+
+> **Nota importante:** `EXPO_PUBLIC_API_URL` debe apuntar a la IP de la máquina que corre el backend en la red local. Si el backend corre en `localhost:3000`, desde un emulador Android hay que usar `10.0.2.2:3000` en lugar de `localhost`.
+
+### Base de datos Supabase
+
+Ver la sección [7. Configuración de Supabase](#7-configuración-de-supabase) para el detalle completo.
+
+\newpage
+
+## 7. Configuración de Supabase
+
+El proyecto utiliza Supabase para dos funcionalidades: **autenticación de usuarios** (login/registro) y **likes en tiempo real**.
+
+> **Nota:** Los proyectos de Supabase en el plan gratuito se pausan automáticamente si no reciben actividad durante 7 días. Si el proyecto está pausado y no se puede reactivar, hay que crear uno nuevo y seguir los pasos de esta sección.
+
+### Paso 1 — Crear el proyecto
+
+1. Ingresar a [supabase.com](https://supabase.com) con tu cuenta.
+2. Hacer clic en **New project**.
+3. Completar nombre, contraseña de la base de datos y región.
+4. Esperar ~1 minuto a que el proyecto termine de inicializarse.
+
+### Paso 2 — Crear la tabla `especieslikes`
+
+Ir a **SQL Editor** en el dashboard y ejecutar:
+
+```sql
+-- Crear tabla de likes
+create table especieslikes (
+  id bigint primary key generated always as identity,
+  sp_id int not null unique,
+  "like" int not null default 0
+);
+-- Habilitar Realtime para esta tabla
+alter publication supabase_realtime add table especieslikes;
+```
+
+> **Importante:** `like` es una palabra reservada en PostgreSQL, por eso se escapa con comillas dobles (`"like"`). Sin las comillas el SQL arroja un error de sintaxis.
+
+### Paso 3 — Habilitar autenticación por Email
+
+1. Ir a **Authentication → Providers**.
+2. Verificar que **Email** esté habilitado (viene activado por defecto en proyectos nuevos).
+
+### Paso 4 — Obtener las credenciales
+
+1. Ir a **Project Settings → API**.
+2. Copiar los valores de:
+   - **Project URL** → `https://<ref>.supabase.co`
+   - **anon public key** → JWT largo que empieza con `eyJ...`
+
+### Paso 5 — Actualizar las variables de entorno
+
+Editar `.env.local` con los valores obtenidos:
+
+```env
+EXPO_PUBLIC_SUPABASE_URL="https://<ref>.supabase.co"
+EXPO_PUBLIC_SUPABASE_KEY="<anon_key>"
+```
+
+> Las variables **deben** tener el prefijo `EXPO_PUBLIC_` para que Expo las inyecte en el bundle del cliente. Sin ese prefijo quedan como `undefined` en tiempo de ejecución.
+
+El archivo `src/utils/supabase.ts` ya lee estas variables automáticamente:
+
+```ts
+const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL!;
+const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_KEY!;
+```
+
+No es necesario modificar ese archivo al migrar a un nuevo proyecto.
+
+\newpage
+
+## 8. Variables de entorno
 
 Crear el archivo `.env.local` en la raíz del proyecto con el siguiente contenido:
 
@@ -266,15 +364,15 @@ Crear el archivo `.env.local` en la raíz del proyecto con el siguiente contenid
 EXPO_PUBLIC_API_URL="http://<IP_LOCAL>:3000"
 
 # Proyecto Supabase (URL y clave anónima pública)
-SUPABASE_URL="https://<proyecto>.supabase.co"
-SUPABASE_KEY="<anon_key>"
+EXPO_PUBLIC_SUPABASE_URL="https://<proyecto>.supabase.co"
+EXPO_PUBLIC_SUPABASE_KEY="<anon_key>"
 ```
 
 > Las variables con prefijo `EXPO_PUBLIC_` son accesibles en el código JavaScript del cliente (`process.env.EXPO_PUBLIC_*`). Las variables sin ese prefijo solo son accesibles en el proceso de build y **no** se exponen al cliente.
 
----
+\newpage
 
-## 8. Estructura de carpetas
+## 9. Estructura de carpetas
 
 ```
 tnt2024-especies-app/
